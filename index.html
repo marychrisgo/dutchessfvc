@@ -1,68 +1,234 @@
 <!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Volleyball Rotation Tracker</title>
+  
+  <style>
+    body {
+      width: 100%;
+      max-width: 30em; /* Keeps a nice width for larger screens */
+      margin: 0 auto;
+      font-family: Arial, sans-serif;
+      padding: 1em;
+    }
 
-<title>Volleyball Rotation Tracker</title>
+    div.lineup {
+      display: inline-block;
+    }
 
-<style>
-body { width: 30em; }
+    div.linear {
+      width: 100%;
+      max-width: 6em;
+    }
 
-div.lineup {
-  display: inline-block;
-}
+    p {
+      margin: 0 0 1em;
+    }
 
-div.linear {
-  width: 6em;
-}
+    td.vr {
+      background-color: #555;
+      width: 0.1em;
+    }
 
-p {
-  margin: 0 0 1em;
-}
+    input {
+      width: 100%;
+      max-width: 2em;
+      border: thin solid #aaa;
+      margin-bottom: 0.2em;
+    }
 
-td.vr {
-  background-color: #555;
-  width: 0.1em;
-}
+    p > input {
+      margin-left: 0.5em;
+    }
 
-input {
-  width: 2em;
-  border: thin solid #aaa;
-  margin-bottom: 0.2em;
-}
+    input.plus1, input.onCourt, input.undo, input.serving {
+      border: thin groove #000;
+      margin: 0 1.3em;
+      width: 100%;
+      max-width: 5em;
+    }
 
-p > input {
-  margin-left: 0.5em;
-}
+    td.instructions {
+      padding-top: 0.5em;
+    }
 
-input.plus1, input.onCourt, input.undo, input.serving {
-  border: thin groove #000;
-  margin: 0 1.3em;
-  width: 5em;
-}
+    td.instructions ol {
+      width: 100%;
+      max-width: 26em;
+    }
 
-td.instructions {
-  padding-top: 0.5em;
-}
+    td.instructions li {
+      margin-top: 0.5em;
+    }
 
-td.instructions ol {
-  width: 26em;
-}
+    .hidden {
+      display: none;
+    }
 
-td.instructions li {
-  margin-top: 0.5em;
-}
+    .score {
+      background: white;
+      color: black;
+      width: 100%;
+      max-width: 2.5em;
+      text-align: center;
+    }
 
-.hidden {
-  display: none;
-}
+    table {
+      width: 100%;
+      border-spacing: 0;
+    }
 
-.score {
-  background: white;
-  color: black;
-}
+    td {
+      padding: 0.5em;
+    }
 
-</style>
+    /* Media Query for smaller screens */
+    @media (max-width: 600px) {
+      body {
+        padding: 0.5em;
+      }
+
+      table {
+        width: 100%;
+      }
+
+      td.instructions ol {
+        width: 100%;
+      }
+
+      input.plus1, input.onCourt, input.undo, input.serving {
+        width: 100%;
+        margin: 0.5em 0;
+      }
+
+      td.instructions ol li {
+        font-size: 0.9em;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<table>
+  <tr>
+    <td>Score:</td>
+    <td><center><input class="score" type="text" id="scoret1" value="0" disabled></center></td>
+    <td></td>
+    <td><center><input class="score" type="text" id="scoret2" value="0" disabled></center></td>
+    <td></td>
+  </tr>
+
+  <tr>
+    <td>Serving:</td>
+    <td><input class="serving" type="checkbox" id="servingt1"></td>
+    <td></td>
+    <td><input class="serving" type="checkbox" id="servingt2"></td>
+    <td></td>
+  </tr>
+
+  <tr>
+    <td>
+      <div class="lineup linear" id="t1">
+        <ol>
+          <li><input type="text" id="p1">
+          <li><input type="text" id="p2">
+          <li><input type="text" id="p3">
+          <li><input type="text" id="p4">
+          <li><input type="text" id="p5">
+          <li><input type="text" id="p6">
+        </ol>
+      </div>
+    </td>
+
+    <td>
+      <div class="lineup tabular" id="t1">
+        <table>
+          <tr>
+            <td><p>5<input type="text" id="p5"></p></td>
+            <td><p>4<input type="text" id="p4"></p></td>
+          </tr>
+          <tr>
+            <td><p>6<input type="text" id="p6"></p></td>
+            <td><p>3<input type="text" id="p3"></p></td>
+          </tr>
+          <tr>
+            <td><p>1<input type="text" id="p1"></p></td>
+            <td><p>2<input type="text" id="p2"></p></td>
+          </tr>
+        </table>
+      </div>
+    </td>
+
+    <td class="vr"></td>
+
+    <td>
+      <div class="lineup tabular" id="t2">
+        <table>
+          <tr>
+            <td><p>2<input type="text" id="p2"></p></td>
+            <td><p>1<input type="text" id="p1"></p></td>
+          </tr>
+          <tr>
+            <td><p>3<input type="text" id="p3"></p></td>
+            <td><p>6<input type="text" id="p6"></p></td>
+          </tr>
+          <tr>
+            <td><p>4<input type="text" id="p4"></p></td>
+            <td><p>5<input type="text" id="p5"></p></td>
+          </tr>
+        </table>
+      </div>
+    </td>
+
+    <td>
+      <div class="lineup linear" id="t2">
+        <ol>
+          <li><input type="text" id="p1">
+          <li><input type="text" id="p2">
+          <li><input type="text" id="p3">
+          <li><input type="text" id="p4">
+          <li><input type="text" id="p5">
+          <li><input type="text" id="p6">
+        </ol>
+      </div>
+    </td>
+  </tr>
+
+  <tr>
+    <td><input class="onCourt" type="button" id="onCourt1" value="On Court!"></td>
+    <td><input class="plus1" type="button" id="plus1t1" value="+1"></td>
+    <td></td>
+    <td><input class="plus1" type="button" id="plus1t2" value="+1"></td>
+    <td><input class="onCourt" type="button" id="onCourt2" value="On Court!"></td>
+  </tr>
+
+  <tr>
+    <td></td>
+    <td><input class="undo" type="button" id="undo" value="Undo"></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+
+  <tr>
+    <td colspan="5" align="center" class="instructions">
+      <em><a href="#" class="howto">How to use Volleyball Rotation Tracker</a></em>
+      <ol class="hidden">
+        <li>Input the player numbers from the lineup directly into the player lists on the leftmost and rightmost sides of this app.</li>
+        <li>Click the <i>On Court!</i> buttons for either team to view their lineup visually on the diagram/court.</li>
+        <li>Tick the <i>Serving</i> box to designate the first serving team.</li>
+        <li>Click <i>+1</i> on the corresponding team's side when they get a point. The rotation and score will be tracked for you.</li>
+        <li>If you have made a mistake, click the <i>Undo</i> button to undo the last action. Previous actions may be undone as well.</li>
+      </ol>
+    </td>
+  </tr>
+
+</table>
 
 <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-
 <table>
 
 <tr>
